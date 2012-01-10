@@ -643,6 +643,29 @@ define('fitsParser',['./fitsPixelMapper'], function (fitsPixelMapper) {
     return records;
   };
   
+  var FitsParser = function() {
+    var parser;
+
+    this.parse = function (input) {
+      if (input instanceof File){
+        parser = new FitsFileParser();
+        parser.onParsed = this.onParsed;
+        parser.onError = this.onError;
+        parser.parse(input);
+      }
+       
+    };
+    
+    this.onParsed = function (headerDataUnits) {
+      
+    };
+
+    this.onError = function (error) {
+      console.error(error);
+    };
+
+  };
+
   var FitsFileParser = function () {
     var file;
     var data = "";
@@ -815,7 +838,7 @@ define('fitsParser',['./fitsPixelMapper'], function (fitsPixelMapper) {
   };
 
   return {
-    'FileParser': FitsFileParser,
+    'Parser': FitsParser,
     'mapPixels' : fitsPixelMapper
   };
 
