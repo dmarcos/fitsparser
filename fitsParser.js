@@ -645,7 +645,6 @@ define('fitsParser',['./fitsPixelMapper'], function (fitsPixelMapper) {
   
   var FitsParser = function() {
     var parser;
-    var imageFormat;
     var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
 
