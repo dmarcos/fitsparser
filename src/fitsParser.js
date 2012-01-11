@@ -9,9 +9,18 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
     var parser;
     var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
+    var keyWord;
 
     this.parse = function (input) {
-      if (input instanceof File){
+      var slice;
+      if (input instanceof File) {
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+          console.error('The File APIs are not fully supported in this browser.');
+          return;
+        } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
+          slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
+        }
+        keyWord = slice.call(input, 0, 8);
         imageType = (input.fileName.match(fileExtensionExpr))[1];
         if (imageType === 'fits') {
           parser = new FitsFileParser();

@@ -59,7 +59,7 @@ define(['./fitsValidator'], function(fitsValidator) {
       return records;
       };
 
-    function parseHeaderBlocks(success, error) {
+    var parseHeaderBlocks = function (success, error) {
       var fileBlock;
       var reader = new FileReader();
       
@@ -106,7 +106,7 @@ define(['./fitsValidator'], function(fitsValidator) {
       fileBlock = slice.call(file, fileBytePointer, fileBytePointer + blockSize);
       fileBytePointer += blockSize;
       reader.readAsText(fileBlock);
-    }
+    };
       
     var parseDataBlocks = function(dataSize, success, error) {
       var fileBlock;
@@ -203,7 +203,8 @@ define(['./fitsValidator'], function(fitsValidator) {
         } else {
           that.onParsed(headerDataUnits);
         }
-      };    
+      };  
+        
       parseHeaderDataUnit(onParsedHeaderDataUnit, onErrorParsingHeaderDataUnit);
     };
 

@@ -664,7 +664,7 @@ define('fitsFileParser',['./fitsValidator'], function(fitsValidator) {
       return records;
       };
 
-    function parseHeaderBlocks(success, error) {
+    var parseHeaderBlocks = function (success, error) {
       var fileBlock;
       var reader = new FileReader();
       
@@ -711,7 +711,7 @@ define('fitsFileParser',['./fitsValidator'], function(fitsValidator) {
       fileBlock = slice.call(file, fileBytePointer, fileBytePointer + blockSize);
       fileBytePointer += blockSize;
       reader.readAsText(fileBlock);
-    }
+    };
       
     var parseDataBlocks = function(dataSize, success, error) {
       var fileBlock;
@@ -808,7 +808,8 @@ define('fitsFileParser',['./fitsValidator'], function(fitsValidator) {
         } else {
           that.onParsed(headerDataUnits);
         }
-      };    
+      };  
+        
       parseHeaderDataUnit(onParsedHeaderDataUnit, onErrorParsingHeaderDataUnit);
     };
 
@@ -833,9 +834,18 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
     var parser;
     var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
+    var keyWord;
 
     this.parse = function (input) {
-      if (input instanceof File){
+      var slice;
+      if (input instanceof File) {
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+          console.error('The File APIs are not fully supported in this browser.');
+          return;
+        } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
+          slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
+        }
+        keyWord = slice.call(input, 0, 8);
         imageType = (input.fileName.match(fileExtensionExpr))[1];
         if (imageType === 'fits') {
           parser = new FitsFileParser();
