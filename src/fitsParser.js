@@ -11,8 +11,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
     var imageType;
     var that = this;
 
-    var checkFileKeyWord = function(file, success) {
-      var keyWord;
+    var checkFileSignature = function(file, success) {
       var reader = new FileReader();
       var slice;
 
@@ -34,11 +33,11 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
 
     };
 
-    var parseFile = function (keyWord, file){
+    var parseFile = function (fileSignature, file){
       
-      if (keyWord === 'SIMPLE  ') {
+      if (fileSignature === 'SIMPLE  ') {
         parser = new FitsFileParser();
-      } else if (keyWord === 'png') {
+      } else if (fileSignature === String.fromCharCode(137, 80, 78, 71, 13, 10, 26, 10)) {
         parser = new PngFileParser();
       } else {
         console.error('FitsParser. Unknown image format')
@@ -52,7 +51,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
 
     this.parse = function (input) {
       if (input instanceof File) {
-        checkFileKeyWord(input, parseFile);
+        checkFileSignature(input, parseFile);
       }
       else if (typeof input === 'string') {
       }
@@ -65,8 +64,6 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
     };
 
   };
-
-
 
   return {
     'Parser': FitsParser,
