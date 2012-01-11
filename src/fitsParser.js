@@ -9,6 +9,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
     var parser;
     //var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
+    var that = this;
 
     var checkFileKeyWord = function(file, success) {
       var keyWord;
@@ -43,8 +44,8 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
         console.error('FitsParser. Unknown image format')
         return;
       }
-      parser.onParsed = this.onParsed;
-      parser.onError = this.onError;
+      parser.onParsed = that.onParsed;
+      parser.onError = that.onError;
       parser.parse(file);
 
     };

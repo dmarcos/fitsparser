@@ -835,7 +835,7 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
     //var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
 
-    var ckeckFileKeyWord = function(file, success) {
+    var checkFileKeyWord = function(file, success) {
       var keyWord;
       var reader = new FileReader();
       var slice;
@@ -854,15 +854,15 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
       } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
         slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
       }
-      reader.readAsText(slice.call(input, 0, 8));
+      reader.readAsText(slice.call(file, 0, 8));
 
     };
 
     var parseFile = function (keyWord, file){
-      imageType = (input.fileName.match(fileExtensionExpr))[1];
-      if (imageType === 'fits') {
+      
+      if (keyWord === 'SIMPLE  ') {
         parser = new FitsFileParser();
-      } else if (imageType === 'png') {
+      } else if (keyWord === 'png') {
         parser = new PngFileParser();
       } else {
         console.error('FitsParser. Unknown image format')
@@ -870,7 +870,8 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
       }
       parser.onParsed = this.onParsed;
       parser.onError = this.onError;
-      parser.parse(input);
+      parser.parse(file);
+
     };
 
     this.parse = function (input) {
@@ -881,15 +882,15 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
       }
     };
     
-    this.onParsed = function (headerDataUnits) {
-      
-    };
+    this.onParsed = function (headerDataUnits) {};
 
     this.onError = function (error) {
       console.error(error);
     };
 
   };
+
+
 
   return {
     'Parser': FitsParser,
