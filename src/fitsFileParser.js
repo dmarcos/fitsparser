@@ -1,4 +1,4 @@
-define(function() {
+define('./fitsValidator', function(fitsValidator) {
 
   var FitsFileParser = function () {
     var blockSize = 2880; // In bytes
@@ -32,9 +32,9 @@ define(function() {
         comment = valueComment[2];
       }
       
-      record.keyword = keyword; //validateKeyword(keyword, error) || undefined;
-      record.comment = comment; //validateComment(comment, keyword, warning) || undefined;
-      record.value = value; //validateValue(value, record.keyword, recordString, error);
+      record.keyword = fitsValidator.validateKeyword(keyword, error) || undefined;
+      record.comment = fitsValidator.validateComment(comment, keyword, warning) || undefined;
+      record.value = fitsValidator.validateValue(value, record.keyword, recordString, error);
       return record;
     };
 
@@ -192,11 +192,11 @@ define(function() {
       };
       
       var onParsedHeaderDataUnit = function(headerDataUnit){
-        //if (headerDataUnits.length === 0){
-        //  validatePrimaryHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
-        //} else {
-        //  validateExtensionHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
-        //}
+        if (headerDataUnits.length === 0){
+          fitsValidator.validatePrimaryHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
+        } else {
+          fitsValidator.validateExtensionHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
+        }
         headerDataUnits.push(headerDataUnit);
         if (fileBytePointer < file.fileSize){
           parseHeaderDataUnit(onParsedHeaderDataUnit, onErrorParsingHeaderDataUnit);
