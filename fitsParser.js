@@ -835,6 +835,8 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
     var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
     var keyWord;
+    var fileReader = new FileReader();
+
 
     this.parse = function (input) {
       var slice;
@@ -845,7 +847,7 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
         } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
           slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
         }
-        keyWord = slice.call(input, 0, 8);
+        keyWord = fileReader.readAsText(slice.call(input, 0, 8));
         imageType = (input.fileName.match(fileExtensionExpr))[1];
         if (imageType === 'fits') {
           parser = new FitsFileParser();
