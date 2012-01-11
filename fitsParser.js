@@ -832,37 +832,52 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser'], function (fitsPix
   
   var FitsParser = function() {
     var parser;
-    var fileExtensionExpr = /.*\.([^.]+)$/
+    //var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
-    var keyWord;
-    var fileReader = new FileReader();
 
+    var ckeckFileKeyWord = function(file, success) {
+      var keyWord;
+      var reader = new FileReader();
+      var slice;
+
+      reader.onload = function (e) {
+        success(this.result, file);
+      };
+
+      reader.onerror = function (e) {
+        console.error("Error loading block");
+      };
+
+      if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        console.error('The File APIs are not fully supported in this browser.');
+        return;
+      } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
+        slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
+      }
+      reader.readAsText(slice.call(input, 0, 8));
+
+    };
+
+    var parseFile = function (keyWord, file){
+      imageType = (input.fileName.match(fileExtensionExpr))[1];
+      if (imageType === 'fits') {
+        parser = new FitsFileParser();
+      } else if (imageType === 'png') {
+        parser = new PngFileParser();
+      } else {
+        console.error('FitsParser. Unknown image format')
+        return;
+      }
+      parser.onParsed = this.onParsed;
+      parser.onError = this.onError;
+      parser.parse(input);
+    };
 
     this.parse = function (input) {
-      var slice;
       if (input instanceof File) {
-        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-          console.error('The File APIs are not fully supported in this browser.');
-          return;
-        } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
-          slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
-        }
-        keyWord = fileReader.readAsText(slice.call(input, 0, 8));
-        imageType = (input.fileName.match(fileExtensionExpr))[1];
-        if (imageType === 'fits') {
-          parser = new FitsFileParser();
-        } else if (imageType === 'png') {
-          parser = new PngFileParser();
-        } else {
-          console.error('FitsParser. Unknown image format')
-          return;
-        }
-        parser.onParsed = this.onParsed;
-        parser.onError = this.onError;
-        parser.parse(input);
+        checkFileKeyWord(input, parseFile);
       }
       else if (typeof input === 'string') {
-        
       }
     };
     
