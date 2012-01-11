@@ -33,25 +33,9 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
 
     };
 
-  var parseFile = function (keyWord, file){
-
-    this.parse = function (input) {
-      if (input instanceof File) {
-        checkFileKeyWord(input, parseFile);
-      }
-      else if (typeof input === 'string') {
-      }
-    };
-    
-    this.onParsed = function (headerDataUnits) {
+    var parseFile = function (keyWord, file){
       
-    };
-
-    this.onError = function (error) {
-      console.error(error);
-    };
-    
-    if (keyWord === 'SIMPLE  ') {
+      if (keyWord === 'SIMPLE  ') {
         parser = new FitsFileParser();
       } else if (keyWord === 'png') {
         parser = new PngFileParser();
@@ -62,9 +46,26 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
       parser.onParsed = this.onParsed;
       parser.onError = this.onError;
       parser.parse(file);
+
+    };
+
+    this.parse = function (input) {
+      if (input instanceof File) {
+        checkFileKeyWord(input, parseFile);
+      }
+      else if (typeof input === 'string') {
+      }
+    };
+    
+    this.onParsed = function (headerDataUnits) {};
+
+    this.onError = function (error) {
+      console.error(error);
     };
 
   };
+
+
 
   return {
     'Parser': FitsParser,
