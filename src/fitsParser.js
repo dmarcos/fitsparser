@@ -29,7 +29,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
       } else {  // For Mozilla 4.0+ || Chrome and Safari || Opera and standard browsers
         slice = File.prototype.mozSlice || File.prototype.webkitSlice || File.prototype.slice;
       }
-      reader.readAsText(slice.call(input, 0, 8));
+      reader.readAsText(slice.call(file, 0, 8));
 
     };
 
