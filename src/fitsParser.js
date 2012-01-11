@@ -33,19 +33,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
 
     };
 
-    var parseFile = function (keyWord, file){
-      if (keyWord === 'SIMPLE  ') {
-        parser = new FitsFileParser();
-      } else if (keyWord === 'png') {
-        parser = new PngFileParser();
-      } else {
-        console.error('FitsParser. Unknown image format')
-        return;
-      }
-      parser.onParsed = this.onParsed;
-      parser.onError = this.onError;
-      parser.parse(file);
-    };
+  var parseFile = function (keyWord, file){
 
     this.parse = function (input) {
       if (input instanceof File) {
@@ -61,6 +49,19 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
 
     this.onError = function (error) {
       console.error(error);
+    };
+    
+    if (keyWord === 'SIMPLE  ') {
+        parser = new FitsFileParser();
+      } else if (keyWord === 'png') {
+        parser = new PngFileParser();
+      } else {
+        console.error('FitsParser. Unknown image format')
+        return;
+      }
+      parser.onParsed = this.onParsed;
+      parser.onError = this.onError;
+      parser.parse(file);
     };
 
   };
