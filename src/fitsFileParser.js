@@ -1,4 +1,4 @@
-define('./fitsValidator', function(fitsValidator) {
+define(['./fitsValidator'], function(fitsValidator) {
 
   var FitsFileParser = function () {
     var blockSize = 2880; // In bytes
