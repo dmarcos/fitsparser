@@ -34,10 +34,9 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
     };
 
     var parseFile = function (keyWord, file){
-      imageType = (input.fileName.match(fileExtensionExpr))[1];
-      if (imageType === 'fits') {
+      if (keyWord === 'SIMPLE  ') {
         parser = new FitsFileParser();
-      } else if (imageType === 'png') {
+      } else if (keyWord === 'png') {
         parser = new PngFileParser();
       } else {
         console.error('FitsParser. Unknown image format')
@@ -45,7 +44,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
       }
       parser.onParsed = this.onParsed;
       parser.onError = this.onError;
-      parser.parse(input);
+      parser.parse(file);
     };
 
     this.parse = function (input) {
