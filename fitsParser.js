@@ -645,15 +645,28 @@ define('fitsParser',['./fitsPixelMapper'], function (fitsPixelMapper) {
   
   var FitsParser = function() {
     var parser;
+    var imageFormat;
+    var fileExtensionExpr = /.*\.([^.]+)$/
+    var imageType;
 
     this.parse = function (input) {
       if (input instanceof File){
-        parser = new FitsFileParser();
+        imageType = (input.match(extensionExpr))[1];
+        if (imageType === 'fits') {
+          parser = new FitsFileParser();
+        } else if (imageType === 'png') {
+          parser = new PngFileParser();
+        } else {
+          console.error('FitsParser. Unknown image format')
+          return;
+        }
         parser.onParsed = this.onParsed;
         parser.onError = this.onError;
         parser.parse(input);
       }
-       
+      else if (typeof input === 'string') {
+        
+      }
     };
     
     this.onParsed = function (headerDataUnits) {
