@@ -37,7 +37,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
       
       if (fileSignature === 'SIMPLE  ') {
         parser = new FitsFileParser();
-      } else if (fileSignature === String.fromCharCode(137, 80, 78, 71, 13, 10, 26, 10)) {
+      } else if (fileSignature === String.fromCharCode(65533, 80, 78, 71, 13, 10, 26, 10)) {
         parser = new PngFileParser();
       } else {
         console.error('FitsParser. Unknown image format')
