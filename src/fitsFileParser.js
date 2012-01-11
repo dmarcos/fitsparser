@@ -192,11 +192,11 @@ define(function() {
       };
       
       var onParsedHeaderDataUnit = function(headerDataUnit){
-        if (headerDataUnits.length === 0){
-          validatePrimaryHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
-        } else {
-          validateExtensionHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
-        }
+        //if (headerDataUnits.length === 0){
+        //  validatePrimaryHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
+        //} else {
+        //  validateExtensionHeader(headerDataUnit.header, onErrorParsingHeaderDataUnit);
+        //}
         headerDataUnits.push(headerDataUnit);
         if (fileBytePointer < file.fileSize){
           parseHeaderDataUnit(onParsedHeaderDataUnit, onErrorParsingHeaderDataUnit);
@@ -205,7 +205,6 @@ define(function() {
         }
       };    
       parseHeaderDataUnit(onParsedHeaderDataUnit, onErrorParsingHeaderDataUnit);
-       
     };
 
     this.onParsed = function (headerDataUnits) {};
