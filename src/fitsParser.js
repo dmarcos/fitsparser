@@ -10,7 +10,7 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
     //var fileExtensionExpr = /.*\.([^.]+)$/
     var imageType;
 
-    var ckeckFileKeyWord = function(file, success) {
+    var checkFileKeyWord = function(file, success) {
       var keyWord;
       var reader = new FileReader();
       var slice;
