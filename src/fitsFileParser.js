@@ -206,6 +206,7 @@ define(['./fitsValidator', './fitsPixelMapper'], function(fitsValidator, pixelMa
       };  
         
       parseHeaderDataUnit(onParsedHeaderDataUnit, onErrorParsingHeaderDataUnit);
+      
     };
 
     this.onParsed = function (headerDataUnits) {};

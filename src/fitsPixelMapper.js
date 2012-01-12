@@ -199,8 +199,8 @@ define(['./binaryDataView'], function (BinaryDataView) {
       error('No header available in HDU');
     }
     
-    if (!data) {
-      error('No data available in HDU');
+    if (!pixel) {
+      error('No pixels available');
     }
     
     while (i < pixels.length) {
