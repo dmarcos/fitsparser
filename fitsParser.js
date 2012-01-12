@@ -1579,8 +1579,8 @@ define('libs/pngParser/src/pngParser.js',['./jdataview', './deflateOld'], functi
       headerDataUnit.header.MINPIXEL = this.min_pixel;
       headerDataUnit.header.MAXPIXEL = this.max_pixel;
 
-      for (var i = 0; i < pngImage.height; ++i) {
-        headerDataUnit.data = headerDataUnit.data.concat(pngImage.read_line());
+      for (var i = 0; i < this.height; ++i) {
+        headerDataUnit.data = headerDataUnit.data.concat(this.read_line());
       }
 
       this.headerDataUnits.push(headerDataUnit);
@@ -1813,7 +1813,7 @@ define('libs/pngParser/src/pngParser.js',['./jdataview', './deflateOld'], functi
 // Email: diego.marcos@gmail.com
 
 define('fitsParser',['./fitsPixelMapper', './fitsFileParser', './libs/pngParser/src/pngParser.js'], function (fitsPixelMapper, FitsFileParser, PngParser) {
-  
+   
   
   var FitsParser = function() {
     var parser;
@@ -1867,7 +1867,7 @@ define('fitsParser',['./fitsPixelMapper', './fitsFileParser', './libs/pngParser/
         parser = new PngParser();
         parser.onParsed = this.onParsed;
         parser.onError = this.onError;
-        parser.parse(file);
+        parser.parse(input);
       }
     };
     
