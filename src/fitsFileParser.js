@@ -1,4 +1,4 @@
-define(['./fitsValidator'], function(fitsValidator) {
+define(['./fitsValidator', './fitsPixelMapper'], function(fitsValidator, pixelMapper) {
 
   var FitsFileParser = function () {
     var blockSize = 2880; // In bytes
@@ -155,7 +155,7 @@ define(['./fitsValidator'], function(fitsValidator) {
       var successParsingData = function () {
         success({
           "header": headerJSON,
-          "data": data,
+          "data": pixelMapper.parsePixels(headerJSON, data),
           "headerRecords": headerRecords
         });
       };

@@ -71,7 +71,7 @@ define(['./fitsPixelMapper', './fitsFileParser', './libs/pngParser/src/pngParser
 
   return {
     'Parser': FitsParser,
-    'mapPixels' : fitsPixelMapper
+    'mapPixels' : fitsPixelMapper.mapPixels
   };
 
 });
