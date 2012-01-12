@@ -130,6 +130,7 @@ define(['./binaryDataView'], function (BinaryDataView) {
     var lowestPixelValue;
     var highestPixelValue;
     var meanPixelValue;
+    var imagePixelsNumber;
     var remainingDataBytes;
     var dataView;
     var pixels = [];
@@ -146,6 +147,7 @@ define(['./binaryDataView'], function (BinaryDataView) {
     bscale = header.BSCALE || 1.0;
     bitpix = header.BITPIX;
     pixelSize = Math.abs(bitpix) / 8; // In bytes
+    imagePixelsNumber = header.NAXIS1 * header.NAXIS2;
     dataView = new BinaryDataView(data, false, 0, imagePixelsNumber * pixelSize);
     remainingDataBytes = dataView.length();
 
@@ -201,7 +203,7 @@ define(['./binaryDataView'], function (BinaryDataView) {
       error('No data available in HDU');
     }
     
-    while (i < imagePixelsNumber) {
+    while (i < pixels.length) {
       mappedPixel = pixelFormats.RGBA.convert(pixels[i], colorMapping, highestPixelValue, lowestPixelValue, meanPixelValue);
       mappedPixel.value = pixels[i];
       pixels[i] = mappedPixel;
