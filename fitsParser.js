@@ -281,12 +281,12 @@ define('fitsPixelMapper',['./binaryDataView'], function (BinaryDataView) {
       error('No header available in HDU');
     }
     
-    if (!pixel) {
+    if (!pixels) {
       error('No pixels available');
     }
     
     while (i < pixels.length) {
-      mappedPixel = pixelFormats.RGBA.convert(pixels[i], colorMapping, highestPixelValue, lowestPixelValue, meanPixelValue);
+      mappedPixel = pixelFormats.RGBA.convert(pixels[i], colorMapping, header.MAXPIXEL, header.MINPIXEL, header.MEANPIXEL);
       mappedPixel.value = pixels[i];
       pixels[i] = mappedPixel;
       i += 1;
