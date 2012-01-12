@@ -2,7 +2,7 @@
 // Author: Diego Marcos
 // Email: diego.marcos@gmail.com
 
-define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, FitsFileParser) {
+define(['./fitsPixelMapper', './fitsFileParser', './libs/pngParser/src/pngParser.js'], function (fitsPixelMapper, FitsFileParser, PngParser) {
   "use strict";
   
   var FitsParser = function() {
@@ -54,6 +54,10 @@ define(['./fitsPixelMapper', './fitsFileParser'], function (fitsPixelMapper, Fit
         checkFileSignature(input, parseFile);
       }
       else if (typeof input === 'string') {
+        parser = new PngParser();
+        parser.onParsed = this.onParsed;
+        parser.onError = this.onError;
+        parser.parse(file);
       }
     };
     
