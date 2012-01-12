@@ -1,0 +1,16 @@
+Updating submodules
+
+git submodule foreach git pull
+
+Importing module
+
+git submodule add git://github.com/dmarcos/fitsParser.git src/libs/fitsParser
+
+Importing modules + possible nested submodules
+
+git submodule update --init --recursive
+
+Remove module: 
+
+1. Remove entry from .gitmodules
+2. git rm --cached src/libs/fitsParser
