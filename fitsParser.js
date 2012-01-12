@@ -1805,9 +1805,7 @@ define('libs/pngParser/src/pngParser.js',['./jdataview', './deflateOld'], functi
     return pr;
   };
 
-  return {
-    'PngParser' : PNGStringParser
-  };
+  return PNGStringParser;
 
 });
 // FITS Standard 3.0 Parser
