@@ -3,7 +3,7 @@
 // Email: diego.marcos@gmail.com
 
 define(['./fitsPixelMapper', './fitsFileParser', './libs/pngParser/src/pngParser.js'], function (fitsPixelMapper, FitsFileParser, PngParser) {
-  "use strict";
+  "use strict"; 
   
   var FitsParser = function() {
     var parser;
@@ -57,7 +57,7 @@ define(['./fitsPixelMapper', './fitsFileParser', './libs/pngParser/src/pngParser
         parser = new PngParser();
         parser.onParsed = this.onParsed;
         parser.onError = this.onError;
-        parser.parse(file);
+        parser.parse(input);
       }
     };
     
