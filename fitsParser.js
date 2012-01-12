@@ -1611,7 +1611,7 @@ define('libs/pngParser/src/pngParser.js',['./jdataview', './deflateOld'], functi
       headerDataUnit.header.MAXPIXEL = this.max_pixel;
 
       for (var i = 0; i < this.height; ++i) {
-        headerDataUnit.data = this.data; //headerDataUnit.data.concat(this.read_line());
+        headerDataUnit.data = headerDataUnit.data.concat(this.read_line());
       }
 
       this.headerDataUnits.push(headerDataUnit);
